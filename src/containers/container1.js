@@ -1,28 +1,38 @@
 import React, {Component} from 'react';
 
+import * as ACTION_TYPES from '../store/actions/actions_types'
+import * as ACTIONS from '../store/actions/actions'
+
+import { connect } from 'react-redux'
+
 class Cotainer1 extends Component {
-    Arr1 = [
-        {id:1, text: 'text 1', number: 1},
-        {id:2, text: 'text 2', number: 2},
-        {id:3, text: 'text 3', number: 3},
-        {id:4, text: 'text 4', number: 4},
-        {id:5, text: 'text 5', number: 5}
-    ]
-
-    renderListItem = (props) => (
-        <div>
-            {props.item.text}
-            <p>{props.item.number}</p>
-        </div>
-    )
-
+ 
  render(){
     return(
      <div>
-        {this.Arr1.map((item, index) => (<this.renderListItem key={item.id} item={item} />))}    
+         <button onClick={() => console.log(this.props.stateprop1)}> GetState</button>
+         <button onClick={() => this.props.action1()}> Dispatch Action 1</button>
+         <button onClick={() => this.props.action1()}> Dispatch Action 2</button>
+         <button onClick={() => this.props.action_creator1()}> Dispatch Action Creator 1</button>
+         <button onClick={() => this.props.action_creator2()}> Dispatch Action Creator 2</button>
      </div>
     )
   }
 }
 
-export default Cotainer1
+function mapStateToProps(state) {
+    return {
+        stateprop1: state.stateprop1
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        action1: () => dispatch(ACTIONS.SUCCESS),
+        action2: () => dispatch(ACTIONS.FAILURE),
+        action_creator1: () => dispatch(ACTIONS.success()),
+        action_creator2: () => dispatch(ACTIONS.failure())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Cotainer1) 
