@@ -1,37 +1,38 @@
 import React, {Component} from 'react';
 
+import * as ACTION_TYPES from '../store/actions/actions_types'
+import * as ACTIONS from '../store/actions/actions'
+
+import { connect } from 'react-redux'
+
 class Cotainer1 extends Component {
-    constructor(props) {
-        super(props)
-
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-    }
-
-    state = {
-        value: ''
-    }
-
-    handleChange(event) {
-        this.setState({ value: event.target.value})
-    }
-    handleSubmit(event) {
-        event.preventDefault()
-        console.log(this.state.value)
-    }
-
+ 
  render(){
     return(
      <div>
-        {this.state.value}
-       <form onSubmit={this.handleSubmit} >
-            <label>Name </label>
-            <input id="name" onChange={this.handleChange} type="text"/>
-            <button>Submit</button>
-       </form>
+         <button onClick={() => console.log(this.props.stateprop1)}> GetState</button>
+         <button onClick={() => this.props.action1()}> Dispatch Action 1</button>
+         <button onClick={() => this.props.action1()}> Dispatch Action 2</button>
+         <button onClick={() => this.props.action_creator1()}> Dispatch Action Creator 1</button>
+         <button onClick={() => this.props.action_creator2()}> Dispatch Action Creator 2</button>
      </div>
     )
   }
 }
 
-export default Cotainer1
+function mapStateToProps(state) {
+    return {
+        stateprop1: state.stateprop1
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        action1: () => dispatch(ACTIONS.SUCCESS),
+        action2: () => dispatch(ACTIONS.FAILURE),
+        action_creator1: () => dispatch(ACTIONS.success()),
+        action_creator2: () => dispatch(ACTIONS.failure())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Cotainer1) 
